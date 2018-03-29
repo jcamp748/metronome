@@ -1,0 +1,17 @@
+{
+  "name": "metronome",
+  "version": "0.0.0",
+  "description": "programmable web based metronome",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Jordan Camp",
+  "license": "ISC",
+  "devDependencies": {
+    "eslint": "^4.19.1"
+  },
+  "dependencies": {
+    "webpack": "^4.3.0"
+  }
+}
