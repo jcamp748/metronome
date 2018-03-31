@@ -3,14 +3,15 @@ var _ = require('lodash');
 var metronomeData = [];
 var measures = [];
 
-module.exports = function addSection(section, index) {
+var addSection = function(section,index) {
   let begin = metronomeData.slice(0, index);
   let end = metronomeData.slice(index, metronomeData.length);
   let data = [].concat(begin, [section], end);
   metronomeData = data;
   updateMeasures();
 };
-module.exports = function createSection(name, tempo, timesig, len) {
+
+var createSection = function(name, tempo, timesig, len) {
   return {
     name: name,
     tempo: tempo,
@@ -27,7 +28,7 @@ function getIndex(section) {
   });
 }
 
-module.exports = function removeSection(section) {
+var removeSection = function(section) {
   let index = getIndex(section);
   let begin = metronomeData.slice(0, index);
   let end = metronomeData.slice(index, metronomeData.length);
@@ -36,8 +37,7 @@ module.exports = function removeSection(section) {
   updateMeasures();
 };
 
-
-module.exports = function updateSection(section, index) {
+var updateSection = function(section, index) {
   metronomeData[index] = section;
 };
 
@@ -51,14 +51,18 @@ function updateMeasures() {
   measures = measuresArray;
 }
 
-module.exports = function getMeasure(index) {
+var getMeasure = function(index) {
   return measures[index];
 };
 
-module.exports = function getSection(index) {
-  return metronomeData[index];
-};
 
 module.exports = function initialize(array) {
   metronomeData = array;
 };
+
+var getSection = function(index) {
+  return metronomeData[index];
+};
+
+module.exports = {getSection, getMeasure, createSection, addSection,
+  removeSection, updateSection};
