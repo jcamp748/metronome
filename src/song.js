@@ -4,34 +4,29 @@ var metronomeData = [];
 var measures = [];
 
 var addSection = function(section,index) {
-  let begin = metronomeData.slice(0, index);
-  let end = metronomeData.slice(index, metronomeData.length);
-  let data = [].concat(begin, [section], end);
-  metronomeData = data;
+  if(index == lastIndex()) {
+    metronomeData.push(section);
+  } else {
+    let begin = metronomeData.slice(0, index);
+    let end = metronomeData.slice(index, metronomeData.length);
+    let data = [].concat(begin, [section], end);
+    metronomeData = data;
+  }
   updateMeasures();
 };
 
-var createSection = function(name, tempo, timesig, len) {
-  return {
-    name: name,
-    tempo: tempo,
-    timesig: timesig,
-    length: len
-  };
-};
-
 function getIndex(section) {
-  metronomeData.forEach(function(currentValue, index){
-    if(_.isEqual(section, currentValue)){
-      return index;
+  for(var i = 0; i < metronomeData.length; i++) {
+    if(_.isEqual(section, metronomeData[i])) {
+      return i;
     }
-  });
+  }
 }
 
 var removeSection = function(section) {
   let index = getIndex(section);
   let begin = metronomeData.slice(0, index);
-  let end = metronomeData.slice(index, metronomeData.length);
+  let end = metronomeData.slice(index + 1, metronomeData.length);
   let data = [].concat(begin, end);
   metronomeData = data;
   updateMeasures();
@@ -39,6 +34,7 @@ var removeSection = function(section) {
 
 var updateSection = function(section, index) {
   metronomeData[index] = section;
+  updateMeasures();
 };
 
 function updateMeasures() {
@@ -49,20 +45,46 @@ function updateMeasures() {
     }
   });
   measures = measuresArray;
+  // generate lead in measure
+  generateLeadInMeasure();
 }
+
+function generateLeadInMeasure() {
+  let firstSection = metronomeData[0];
+  let leadIn = {
+    name: 'Lead In',
+    tempo: firstSection.tempo,
+    timesig: firstSection.timesig,
+    length: 1
+  };
+  measures.unshift(leadIn);
+}
+
+var getLeadInMeasure = function() {
+  return measures[0];
+};
 
 var getMeasure = function(index) {
   return measures[index];
 };
 
-
-module.exports = function initialize(array) {
+var initialize = function(array) {
   metronomeData = array;
+  updateMeasures();
 };
 
 var getSection = function(index) {
   return metronomeData[index];
 };
 
-module.exports = {getSection, getMeasure, createSection, addSection,
-  removeSection, updateSection};
+var lastSection = function() {
+  return metronomeData.slice(-1)[0];
+};
+
+var lastIndex = function() {
+  return metronomeData.length - 1;
+};
+
+module.exports = {getSection, getMeasure, addSection,
+  removeSection, updateSection, initialize, lastSection,
+  getLeadInMeasure, lastIndex};

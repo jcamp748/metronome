@@ -1,6 +1,9 @@
-const assert = require('assert').strict;
+const controls = require('../src/controls');
+const should = require('should');
 const song = require('../src/song');
 
+
+// testing utility functions
 function initData() {
   return [
     {
@@ -30,22 +33,10 @@ function initData() {
   ];
 }
 
-describe('song module', function(){
-  it('should start with empty metronomeData', function(){
-    assert.strictEqual(song.getSection(0), 1);
+describe('controls module', function(){
+  beforeEach(function(){
+    let testData = initData();
+    song.initialize(testData);
   });
-
-  it('should start with empty metronomeData', function(){
-    assert.strictEqual(song.getMeasure(0), undefined);
-  });
-
-  describe('modifying metronomeData', function(){
-    beforeEach(function(){
-      let data = initData();
-    });
-
-
-  });
-
 
 });
