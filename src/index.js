@@ -26,4 +26,3 @@ var init = [
     length: 2
   }
 ];
-

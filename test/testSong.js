@@ -1,4 +1,4 @@
-//const assert = require('assert').strict;
+// const assert = require('assert').strict;
 const song = require('../src/song');
 const should = require('should');
 
@@ -40,12 +40,7 @@ function leadMeasure(obj) {
   };
 }
 describe('song module', function(){
-  it('should start with empty metronomeData', function(){
-    should(song.getSection(0)).equal(undefined);
-  });
-  it('should start with empty measureData', function(){
-    should(song.getMeasure(0)).equal(undefined);
-  });
+
   describe('#initialize', function(){
     it('can be initialized with an array of sections', function(){
       let testData = initData();
